@@ -13,8 +13,8 @@ import (
 var ErrInvalidRequestType = errors.New("RequestType has only two types:concat,diff")
 
 type StringEndpoint struct {
-	StringEndpoint   endpoint.Endpoint
-	HealCheckEnpoint endpoint.Endpoint
+	StringEndpoint      endpoint.Endpoint
+	HealthCheckEndpoint endpoint.Endpoint
 }
 
 type StringRequest struct {
