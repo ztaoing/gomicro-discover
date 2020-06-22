@@ -23,7 +23,7 @@ type StringRequest struct {
 	B           string `json:"b"`
 }
 
-type StringReponse struct {
+type StringResponse struct {
 	Result string `json:"result"`
 	Error  error  `json:"error"`
 }
@@ -45,7 +45,7 @@ func MakeStringEndpoint(svc service.Service) endpoint.Endpoint {
 		} else {
 			return nil, ErrInvalidRequestType
 		}
-		return StringReponse{Result: res, Error: opError}, nil
+		return StringResponse{Result: res, Error: opError}, nil
 	}
 }
 

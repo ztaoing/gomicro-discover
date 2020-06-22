@@ -40,6 +40,7 @@ func MakeHttpHandler(ctx context.Context, endpoint endpoint.StringEndpoint, logg
 		encodeStringResponse,
 		options...,
 	))
+	return r
 }
 
 func encodeError(_ context.Context, err error, w http.ResponseWriter) {

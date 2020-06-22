@@ -9,21 +9,21 @@ import (
 //为了记录service接口的执行和调用情况，我们使用装饰者模式定义了loggingMiddleware日志中间件
 //使得每当service接口中的方法被调用时都会有对应的日志输出
 
-type LoggingMiddleware struct {
+type loggingMiddleware struct {
 	service.Service
-	Logger log2.Logger
+	logger log2.Logger
 }
 
-func loggingMiddleware(logger log2.Logger) service.ServiceMiddleware {
-	return func(s service.Service) service.Service {
-		return LoggingMiddleware{s, logger}
+func LoggingMiddleware(logger log2.Logger) service.ServiceMiddleware {
+	return func(next service.Service) service.Service {
+		return loggingMiddleware{next, logger}
 	}
 }
 
-func (mw LoggingMiddleware) Concat(a, b string) (ret string, err error) {
+func (mw loggingMiddleware) Concat(a, b string) (ret string, err error) {
 	//在函数执行结束后打印日志
 	defer func(begin time.Time) {
-		mw.Logger.Log(
+		mw.logger.Log(
 			"function", "Concat",
 			"a", a,
 			"b", b,
@@ -35,10 +35,10 @@ func (mw LoggingMiddleware) Concat(a, b string) (ret string, err error) {
 	return ret, err
 }
 
-func (mw LoggingMiddleware) Diff(a, b string) (ret string, err error) {
+func (mw loggingMiddleware) Diff(a, b string) (ret string, err error) {
 	//在函数执行结束后打印日志
 	defer func(begin time.Time) {
-		mw.Logger.Log(
+		mw.logger.Log(
 			"function", "Diff",
 			"a", a,
 			"b", b,
@@ -50,9 +50,9 @@ func (mw LoggingMiddleware) Diff(a, b string) (ret string, err error) {
 	return ret, err
 }
 
-func (mw LoggingMiddleware) HealthCheck() (ret bool) {
+func (mw loggingMiddleware) HealthCheck() (ret bool) {
 	defer func(begin time.Time) {
-		mw.Logger.Log(
+		mw.logger.Log(
 			"function", "HealthCheck",
 			"result", ret,
 			"took", time.Since(begin),
