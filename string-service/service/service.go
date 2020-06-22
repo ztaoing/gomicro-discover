@@ -57,5 +57,5 @@ func (s StringService) HealthCheck() bool {
 	return true
 }
 
-//定义服务的中间件
+//定义服务的中间件：用于在service层注入日志记录行为
 type ServiceMiddleware func(Service) Service
